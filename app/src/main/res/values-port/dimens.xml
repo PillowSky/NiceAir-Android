@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="rotation_ring_margin" >48dp</dimen>
+    <dimen name="sensor_value_size" >60sp</dimen>
+    <dimen name="sensor_value_margin" >12dp</dimen>
+    <dimen name="sensor_text_size" >48sp</dimen>
+    <dimen name="history_chart_height">560dp</dimen>
+</resources>

@@ -104,7 +104,7 @@
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/history_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"/>
+                    android:layout_height="@dimen/history_chart_height"/>
 
                 <TableRow>
                     <TextView
