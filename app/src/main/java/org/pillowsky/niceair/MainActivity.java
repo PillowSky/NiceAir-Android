@@ -3,6 +3,7 @@ package org.pillowsky.niceair;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,7 +23,6 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +36,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -127,6 +126,10 @@ public class MainActivity extends AppCompatActivity {
 
         historyChartDataSet = new LineDataSet(null, "PM2.5 Value");
         historyChartDataSet.setDrawCubic(true);
+        historyChartDataSet.setDrawFilled(true);
+        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[] {Color.CYAN, Color.WHITE});
+        drawable.setAlpha(85);
+        historyChartDataSet.setFillDrawable(drawable);
 
         historyChartData = new LineData();
         historyChartData.addDataSet(historyChartDataSet);
