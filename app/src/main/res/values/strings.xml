@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">NiceAir</string>
-    <string name="sensor_data_updating">正在更新传感器数据</string>
-    <string name="network_error">无法获取传感器数据，请检查网络</string>
-    <string name="sensor_data_no_update">传感器数据无更新，请检查传感器网络</string>
     <string name="sensor_value_zero">0.0</string>
     <string name="sensor_text_excellent">优</string>
     <string name="sensor_text_good">良</string>
@@ -10,4 +7,29 @@
     <string name="sensor_text_medium_pollution">中度污染</string>
     <string name="sensor_text_severe_pollution">重度污染</string>
     <string name="sensor_text_critical_pollution">严重污染</string>
+    <string name="latest_view_title">实时PM2.5数据</string>
+    <string name="latest_data_updating">正在更新传感器数据</string>
+    <string name="latest_data_network_error">无法获取传感器数据，请检查网络</string>
+    <string name="latest_data_no_update">传感器数据未更新，请检查传感器网络</string>
+    <string name="history_view_title">历史PM2.5统计数据</string>
+    <string name="history_start">开始时间：</string>
+    <string name="history_end">结束时间：</string>
+    <string name="history_interval">采样间隔：</string>
+    <string name="history_refresh">刷新</string>
+    <string name="history_updating">正在获取历史数据</string>
+    <string name="history_network_error">无法获取历史数据，请检查网络</string>
+
+    <string-array name="interval_array">
+        <item>1</item>
+        <item>30</item>
+        <item>60</item>
+        <item>300</item>
+        <item>900</item>
+        <item>1800</item>
+        <item>3600</item>
+        <item>10800</item>
+        <item>21600</item>
+        <item>43200</item>
+        <item>86400</item>
+    </string-array>
 </resources>
