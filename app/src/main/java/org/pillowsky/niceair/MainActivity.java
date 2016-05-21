@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(JSONObject result) {
+                swipeRefreshLayout.setRefreshing(false);
+
                 if (result != null) {
                     try {
                         String timestamp = result.getString("timestamp");
@@ -109,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                             }, 10000);
                         }
 
-                        swipeRefreshLayout.setRefreshing(false);
                         double value = result.getDouble("value");
                         sensorValue.setText(String.valueOf(value));
 
