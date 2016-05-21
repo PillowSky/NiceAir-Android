@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView sensorText;
 
     private final Handler handler = new Handler();
-    private final String apikey = "3a4acf999665687b17a2cfc6762f7251";
+    private final String apiKey = "3a4acf999665687b17a2cfc6762f7251";
     private final String deviceId = "347956";
     private final String sensorId = "388985";
     private URL latestUrl;
@@ -67,12 +67,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void requestLatestData() {
-        final AsyncTask<Void, Void, JSONObject> task = new AsyncTask<Void, Void, JSONObject>() {
+        AsyncTask<Void, Void, JSONObject> task = new AsyncTask<Void, Void, JSONObject>() {
             @Override
             protected JSONObject doInBackground(Void[] params) {
                 try {
                     HttpURLConnection connection = (HttpURLConnection) latestUrl.openConnection();
-                    connection.addRequestProperty("U-ApiKey", apikey);
+                    connection.addRequestProperty("U-ApiKey", apiKey);
                     connection.connect();
 
                     InputStream stream = connection.getInputStream();
