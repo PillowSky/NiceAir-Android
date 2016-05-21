@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +17,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +36,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private Button endDate;
     private Button endTime;
     private Spinner intervalSpinner;
+    private LineChart historyChart;
 
     private final Handler handler = new Handler();
     private final String apiKey = "3a4acf999665687b17a2cfc6762f7251";
@@ -59,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
     private final SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+    private LineData historyChartData;
+    private LineDataSet historyChartDataSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         endDate = (Button) findViewById(R.id.end_date);
         endTime = (Button) findViewById(R.id.end_time);
         intervalSpinner = (Spinner) findViewById(R.id.interval_spinner);
+        historyChart = (LineChart) findViewById(R.id.history_chart);
 
         try {
             latestUrl = new URL("http://api.yeelink.net/v1.0/device/" + deviceId + "/sensor/" + sensorId + "/datapoints");
@@ -114,6 +124,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        historyChartDataSet = new LineDataSet(null, "PM2.5 Value");
+        historyChartDataSet.setDrawCubic(true);
+
+        historyChartData = new LineData();
+        historyChartData.addDataSet(historyChartDataSet);
+        historyChart.setTouchEnabled(true);
+        historyChart.setData(historyChartData);
+        historyChart.notifyDataSetChanged();
+        historyChart.invalidate();
+
+        refreshHistoryData();
     }
 
     protected void onStartDateClick(View view) {
@@ -163,6 +185,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onHistoryRefreshClick(View view) {
+        historyChartDataSet.clear();
+        historyChartData = new LineData();
+        historyChartData.addDataSet(historyChartDataSet);
+        historyChart.setData(historyChartData);
         refreshHistoryData();
     }
 
@@ -289,7 +315,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(JSONArray result) {
                 if (result != null) {
-                    Log.d("requestHistoryData", result.toString());
+                    int length = result.length();
+                    if (length == 200) requestHistoryData(start, end, interval, page + 1);
+
+                    int count = historyChartDataSet.getEntryCount();
+                    for (int i = 0; i < length; i++) {
+                        try {
+                            JSONObject node = result.getJSONObject(i);
+                            historyChartData.addXValue(node.getString("timestamp"));
+                            historyChartData.addEntry(new Entry((float)node.getDouble("value"), count + i), 0);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    historyChart.notifyDataSetChanged();
+                    historyChart.invalidate();
                 }
             }
         };
