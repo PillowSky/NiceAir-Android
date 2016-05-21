@@ -18,13 +18,10 @@
         android:layout_weight="0.4"
         android:gravity="center">
 
-        <org.pillowsky.niceair.CircleProgressBar
-            android:id="@+id/custom_progressBar"
+        <org.pillowsky.niceair.RotationRing
+            android:id="@+id/rotation_ring"
             android:layout_width="@dimen/progressBar_dimen"
             android:layout_height="@dimen/progressBar_dimen"
-            app:progress="35"
-            app:progressBarThickness="4dp"
-
             />
 
     </LinearLayout>
