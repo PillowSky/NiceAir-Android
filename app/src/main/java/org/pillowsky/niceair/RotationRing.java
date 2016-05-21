@@ -131,9 +131,9 @@ public class RotationRing extends View {
         }
     }
 
-    public void cancelRotation() {
+    public void endRotation() {
         if (animator != null) {
-            animator.cancel();
+            animator.end();
         }
     }
 

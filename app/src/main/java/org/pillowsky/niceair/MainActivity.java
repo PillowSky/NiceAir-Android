@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         String timestamp = result.getString("timestamp");
                         if (timestamp.equals(lastTimeStamp)) {
-                            rotationRing.cancelRotation();
+                            rotationRing.endRotation();
                             Toast.makeText(getApplicationContext(), R.string.sensor_data_no_update, Toast.LENGTH_LONG).show();
                         } else {
                             lastTimeStamp = timestamp;
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                             sensorText.setText(R.string.sensor_text_medium_pollution);
                         } else if (value < 250) {
                             rotationRing.setRingColor(Color.RED);
-                            sensorText.setTextSize(R.string.sensor_text_severe_pollution);
+                            sensorText.setText(R.string.sensor_text_severe_pollution);
                         } else {
                             rotationRing.setRingColor(Color.BLACK);
                             sensorText.setText(R.string.sensor_text_critical_pollution);
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                rotationRing.cancelRotation();
+                rotationRing.endRotation();
                 Toast.makeText(getApplicationContext(), R.string.network_error, Toast.LENGTH_LONG).show();
             }
         };
