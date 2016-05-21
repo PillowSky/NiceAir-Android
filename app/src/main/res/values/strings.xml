@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">NiceAir</string>
-    <string name="select_color">Select a color</string>
+    <string name="sensor_data_updating">正在更新传感器数据</string>
+    <string name="network_error">无法获取传感器数据，请检查网络</string>
+    <string name="sensor_data_no_update">传感器数据无更新，请检查传感器网络</string>
+    <string name="sensor_value_zero">0.0</string>
+    <string name="sensor_text_excellent">优</string>
+    <string name="sensor_text_good">良</string>
+    <string name="sensor_text_light_pollution">轻度污染</string>
+    <string name="sensor_text_medium_pollution">中度污染</string>
+    <string name="sensor_text_severe_pollution">重度污染</string>
+    <string name="sensor_text_critical_pollution">严重污染</string>
 </resources>

@@ -8,18 +8,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 public class RotationRing extends View {
     private static final String TAG = "RotationRing";
 
-    private float value = 0;
-    private float startAngle = 0;
-    private float spanAngle = 120;
-    private float ringWidth = 6;
-    private int ringColor = Color.MAGENTA;
+    private float startAngle = -90;
+    private float sweepAngle = 120;
+    private float ringWidth = 12;
+    private int ringColor = Color.GREEN;
     private int backColor = Color.GRAY;
     private Paint ringPaint;
     private Paint backPaint;
@@ -33,10 +31,10 @@ public class RotationRing extends View {
 
         try {
             startAngle = typedArray.getFloat(R.styleable.RotationRing_startAngle, startAngle);
-            spanAngle = typedArray.getFloat(R.styleable.RotationRing_spanAngle, spanAngle);
+            sweepAngle = typedArray.getFloat(R.styleable.RotationRing_sweepAngle, sweepAngle);
             ringWidth = typedArray.getDimension(R.styleable.RotationRing_ringWidth, ringWidth);
             ringColor = typedArray.getInt(R.styleable.RotationRing_ringColor, ringColor);
-            backColor = typedArray.getInt(R.styleable.RotationRing_backgroundColor, backColor);
+            backColor = typedArray.getInt(R.styleable.RotationRing_backColor, backColor);
         } finally {
             typedArray.recycle();
         }
@@ -52,14 +50,6 @@ public class RotationRing extends View {
         backPaint.setStrokeWidth(ringWidth);
     }
 
-    public float getValue() {
-        return value;
-    }
-
-    public void setValue(float value) {
-        this.value = value;
-    }
-
     public float getStartAngle() {
         return startAngle;
     }
@@ -69,12 +59,12 @@ public class RotationRing extends View {
         invalidate();
     }
 
-    public float getSpanAngle() {
-        return spanAngle;
+    public float getSweepAngle() {
+        return sweepAngle;
     }
 
-    public void setSpanAngle(float spanAngle) {
-        this.spanAngle = spanAngle;
+    public void setSweepAngle(float sweepAngle) {
+        this.sweepAngle = sweepAngle;
         invalidate();
     }
 
@@ -123,24 +113,25 @@ public class RotationRing extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawOval(rectF, backPaint);
-        canvas.drawArc(rectF, startAngle, spanAngle, false, ringPaint);
+        canvas.drawArc(rectF, startAngle, sweepAngle, false, ringPaint);
     }
 
     public void startRotation() {
-        Log.d(TAG, "startRotation");
         if (animator != null) {
-            animator.cancel();
+            if (!animator.isRunning()) {
+                animator.start();
+            }
         } else {
-            animator = ObjectAnimator.ofFloat(this, "startAngle", 0, 360);
+            animator = ObjectAnimator.ofFloat(this, "startAngle", -90, 270);
+            animator.setDuration(2000);
+            animator.setRepeatMode(ObjectAnimator.RESTART);
+            animator.setRepeatCount(ObjectAnimator.INFINITE);
+            animator.setInterpolator(new LinearInterpolator());
+            animator.start();
         }
-        animator.setDuration(2000);
-        animator.setRepeatMode(ObjectAnimator.RESTART);
-        animator.setRepeatCount(ObjectAnimator.INFINITE);
-        animator.setInterpolator(new LinearInterpolator());
-        animator.start();
     }
 
-    public void stopRotation() {
+    public void cancelRotation() {
         if (animator != null) {
             animator.cancel();
         }

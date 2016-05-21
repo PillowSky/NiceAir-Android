@@ -2,9 +2,9 @@
 <resources>
     <declare-styleable name="RotationRing">
         <attr name="startAngle" format="integer" />
-        <attr name="spanAngle" format="integer" />
+        <attr name="sweepAngle" format="integer" />
         <attr name="ringColor" format="color" />
         <attr name="ringWidth" format="dimension" />
-        <attr name="backgroundColor" format="color" />
+        <attr name="backColor" format="color" />
     </declare-styleable>
 </resources>
