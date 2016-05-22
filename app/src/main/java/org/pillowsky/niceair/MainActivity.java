@@ -318,24 +318,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(JSONArray result) {
                 if (result != null) {
-                    int length = result.length();
-                    if (length == 200) requestHistoryData(start, end, interval, page + 1);
-                    int count = historyChartDataSet.getEntryCount();
-
                     try {
+                        int length = result.length();
+                        if (length == 200) requestHistoryData(start, end, interval, page + 1);
+                        int count = historyChartDataSet.getEntryCount();
+
                         for (int i = 0; i < length; i++) {
                             JSONObject node = result.getJSONObject(i);
                             historyChartData.addXValue(node.getString("timestamp"));
                             historyChartData.addEntry(new Entry((float)node.getDouble("value"), count + i), 0);
                         }
+
+                        historyChart.notifyDataSetChanged();
+                        historyChart.invalidate();
+
+                        return;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    historyChart.notifyDataSetChanged();
-                    historyChart.invalidate();
-
-                    return;
                 }
 
                 Toast.makeText(getApplicationContext(), R.string.history_network_error, Toast.LENGTH_LONG).show();
